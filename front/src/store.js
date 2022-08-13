@@ -9,8 +9,6 @@ dot.str("authToken", '', state);
 dot.str("loginForm.username", '', state);
 dot.str("loginForm.password", '', state);
 dot.str("page", '', state);
-dot.str("products", [], state);
-dot.str("selectedProduct", null, state);
 
 export default createStore({
   state,
@@ -49,12 +47,6 @@ export default createStore({
       localStorage.removeItem('authToken')
       state.authToken = ''
     },
-    setProducts(state, value) {
-      state.products = value
-    },
-    selectProduct(state, value) {
-      state.selectedProduct = value
-    },
   },
   actions: {
     login({ commit }) {
@@ -63,17 +55,6 @@ export default createStore({
         .then(res => {
           commit('hidePreloader')
           commit('setAuthToken', res.data)
-        }).catch(err => {
-          commit('hidePreloader')
-          commit('errorMessage', err.response.data)
-        })
-    },
-    getProducts({ commit }) {
-      commit('showPreloader')
-      axios.get(api_url + '/products', { headers: { Authorization: state.authToken } })
-        .then(res => {
-          commit('hidePreloader')
-          commit('setProducts', res.data)
         }).catch(err => {
           commit('hidePreloader')
           commit('errorMessage', err.response.data)

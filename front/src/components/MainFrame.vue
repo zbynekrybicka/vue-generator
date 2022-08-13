@@ -1,6 +1,6 @@
 <template>
 	<div :class="['MainFrame', className]">
-		<MainMenu />
+		<MainMenu className="navbar navbar-expand-lg bg-success justify-content-center" />
 		<ContentFrame className="container" />
 	</div>
 </template>

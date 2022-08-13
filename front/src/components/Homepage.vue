@@ -1,6 +1,6 @@
 <template>
 	<div :class="['Homepage', className]">
-		<span v-text="'homepage'" />
+		<span v-text="'Homepage'" />
 	</div>
 </template>
 

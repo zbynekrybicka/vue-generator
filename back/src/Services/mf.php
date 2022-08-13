@@ -8,9 +8,5 @@ class mf {
 		return User::get();
 	}
 
-	public function Product() {
-		return Product::get();
-	}
-
 
 }

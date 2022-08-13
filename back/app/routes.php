@@ -38,21 +38,5 @@ return function (App $app) {
         return cors($response->withStatus(200));
     });
 
-    $app->get('/products', function (Request $request, Response $response) use ($mf) {
-        $authToken = $request->getHeader('Authorization')[0];
-        $user = $mf->User()->getUser($authToken);
-        if (!$user) {
-          return cors($response->withStatus(401));
-        }
-        try {
-          $products = $mf->Product()->getAllProducts();
-        } catch (\Exception $e) {
-          $products = $response->getBody()->write(json_encode($e->getMessage()));
-          return cors($response->withStatus(400));
-        }
-        $response->getBody()->write(json_encode($products));
-        return cors($response->withStatus(200));
-    });
-
 
 };
