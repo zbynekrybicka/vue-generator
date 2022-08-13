@@ -14,6 +14,9 @@ export default {
 		}
 	},
 	methods: {
+		login(e) {
+			this.$store.dispatch('login')
+		},
 	},
 	computed: {
 	},

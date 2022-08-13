@@ -29,7 +29,7 @@ class Service {
 		try {
 			return JWT::decode($authToken, new Key(self::jwt_key, 'HS256'));
 		} catch (\Exception $e) {
-			return null
+			return null;
 		}
 	}
 
