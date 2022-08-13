@@ -1,0 +1,14 @@
+{="<?php"|noescape}
+
+namespace App\Services;
+
+class mf {
+
+{foreach $services as $service}
+	public function {$service}() {
+		return {$service}::get();
+	}
+
+{/foreach}
+
+}

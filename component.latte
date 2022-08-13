@@ -1,0 +1,56 @@
+<template>
+	<div :class="['{$name}', className]">
+{foreach $elements as $element}
+		<{$element['element']} {foreach $element['attributes'] as $key => $value}{$key}="{$value}" {/foreach}/>
+{/foreach}
+	</div>
+</template>
+
+<script>
+{if $components}
+{foreach $components as $component}
+import {$component|noescape} from {="./".$component.".vue"}
+{/foreach}
+{/if}
+
+export default {
+{if $components}
+	components: { {foreach $components as $component}{$component|noescape}, {/foreach} },
+{/if}
+	props: [ "className", {foreach $props as $prop => $value}{$prop},{/foreach} ],
+	data() {
+		return {
+{foreach $data as $key => $value}
+			{$key|noescape}: {$value|noescape},
+{/foreach}
+		}
+	},
+	methods: {
+{foreach $methods as $method => $code}
+		{$method|noescape}(e) {
+			{$code|noescape|replace,"\n", "\n			"}
+		},
+{/foreach}
+	},
+	computed: {
+{foreach $computed as $method => $code}
+		{$method|noescape}() {
+			{$code|noescape|replace,"\n", "\n			"}
+		},
+{/foreach}
+	},
+	watch: {
+{foreach $watch as $method => $code}
+		{$method|noescape}(value) {
+			{$code|noescape|replace,"\n", "\n			"}
+		},
+{/foreach}
+	},
+{if $mounted}
+	mounted() {
+		{$mounted|noescape|replace,"\n", "\n		"}
+	}
+{/if}
+}
+
+</script>

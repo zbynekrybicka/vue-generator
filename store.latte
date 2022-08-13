@@ -1,0 +1,27 @@
+import { createStore } from 'vuex'
+import axios from 'axios'
+import dot from 'dot-object'
+
+const api_url = "http://localhost:8081";
+const state = {}
+{foreach $state as $path => $value}
+dot.str("{$path}", {$value|noescape}, state);
+{/foreach}
+
+export default createStore({
+  state,
+  mutations: {
+{foreach $mutations as $method => $code}
+    {$method|noescape}(state, value) {
+      {$code|noescape|replace,"\n", "\n      "}
+    },
+{/foreach}
+  },
+  actions: {
+{foreach $actions as $method => $code}
+    {$method|noescape}({ commit }) {
+      {$code|noescape|replace,"\n", "\n      "}
+    },
+{/foreach}
+  }
+})

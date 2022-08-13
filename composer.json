@@ -1,0 +1,6 @@
+{
+    "require": {
+        "shuchkin/simplexls": "^0.10.1",
+        "latte/latte": "^3.0"
+    }
+}

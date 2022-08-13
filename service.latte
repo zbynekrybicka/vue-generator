@@ -1,0 +1,24 @@
+{="<?php"|noescape}
+
+namespace App\Services;
+
+class {$name} extends Service {
+
+	public static function get() 
+	{
+		static $instance;
+		if (!$instance) {
+			$instance = new {$name};
+		}
+		return $instance;
+	}
+
+{foreach $service as $method => $content}
+	public function {$method}({$content[0]}) 
+	{
+		{$content[1]|noescape|replace,"\n","\n		"}
+	}
+
+{/foreach}
+
+}
