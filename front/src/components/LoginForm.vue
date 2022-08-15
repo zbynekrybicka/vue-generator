@@ -1,7 +1,7 @@
 <template>
 	<div :class="['LoginForm', className]">
-		<LoginFormUsername className="row" />
-		<LoginFormPassword className="row" />
+		<LoginFormUsername className="row mb-3" />
+		<LoginFormPassword className="row mb-3" />
 		<LoginFormLogin />
 	</div>
 </template>

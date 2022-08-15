@@ -2,7 +2,7 @@
 	<div :class="['App', className]">
 		<span v-if="isPreloader" class="preloader" />
 		<span v-if="isMessageShown" class="errorMessage" @click="hideErrorMessage" v-text="errorMessage" />
-		<LoginForm v-if="!isLoggedIn" className="container" />
+		<LoginForm v-if="!isLoggedIn" className="container mt-5" />
 		<MainFrame v-if="isLoggedIn" />
 	</div>
 </template>

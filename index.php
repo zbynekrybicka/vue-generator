@@ -190,7 +190,7 @@ foreach ($data as $row) {
 		$component->addElement($row[Element]);
 	}
 
-	if ($row[Attribute] && $row[Value]) {
+	if ($row[Attribute]) {
 		$component->addAttribute($row[Attribute], $row[Value]);
 	}
 

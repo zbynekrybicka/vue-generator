@@ -1,7 +1,7 @@
 <template>
 	<div :class="['MainFrame', className]">
 		<MainMenu className="navbar navbar-expand-lg bg-success justify-content-center" />
-		<ContentFrame className="container" />
+		<ContentFrame className="container mt-2" />
 	</div>
 </template>
 

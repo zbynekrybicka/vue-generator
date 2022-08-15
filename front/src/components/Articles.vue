@@ -1,5 +1,5 @@
 <template>
-	<div :class="['Homepage', className]">
+	<div :class="['Articles', className]">
 	</div>
 </template>
 

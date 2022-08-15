@@ -1,17 +1,19 @@
 <template>
 	<div :class="['MainMenuBar', className]">
-		<a v-text="'Domů'" @click.prevent="page = ''" class="nav-item nav-link text-white" href="#" />
+		<MainMenuBarItem text="Homepage" page="" />
+		<MainMenuBarItem text="Články" page="articles" />
 		<a v-text="'Odhlásit se'" @click.prevent="logout" class="nav-item nav-link text-white" href="#" />
 	</div>
 </template>
 
 <script>
+import MainMenuBarItem from "./MainMenuBarItem.vue"
 
 export default {
+	components: { MainMenuBarItem,  },
 	props: [ "className",  ],
 	data() {
 		return {
-			page: '',
 		}
 	},
 	methods: {
@@ -22,9 +24,6 @@ export default {
 	computed: {
 	},
 	watch: {
-		page(value) {
-			this.$store.commit('setPage', value)
-		},
 	},
 }
 
