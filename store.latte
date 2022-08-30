@@ -19,7 +19,7 @@ export default createStore({
   },
   actions: {
 {foreach $actions as $method => $code}
-    {$method|noescape}({ commit }) {
+    {$method|noescape}({ commit }, value) {
       {$code|noescape|replace,"\n", "\n      "}
     },
 {/foreach}

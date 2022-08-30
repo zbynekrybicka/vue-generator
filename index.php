@@ -5,12 +5,12 @@ use Shuchkin\SimpleXLS;
 
 $i = 0;
 define('Component', $i++);
-define('Element', $i++);
-define('Attribute', $i++);
-define('Value', $i++);
+define('Template', $i++);
+define('ImportComponent', $i++);
 define('Data', $i++);
 define('DV', $i++);
 define('Props', $i++);
+define('Emits', $i++);
 define('Method', $i++);
 define('MethodCode', $i++);
 define('Computed', $i++);
@@ -30,15 +30,19 @@ define('Service', $i++);
 define('ServiceMethod', $i++);
 define('ServiceMethodParams', $i++);
 define('ServiceMethodCode', $i++);
+define('ServicePrivateMethod', $i++);
+define('ServicePrivateMethodParams', $i++);
+define('ServicePrivateMethodCode', $i++);
 
 class Component {
 
 	private $name;
 	private $components = [];
-	private $elements = [];
-	private $elementIndex = -1;
+	private $template = '';
 	private $data = [];
 	private $props = [];
+	private $emits = [];
+	private $created = '';
 	private $mounted = '';
 	private $methods = [];
 	private $computed = [];
@@ -48,16 +52,12 @@ class Component {
 		$this->name = $name;
 	}
 
-	public function addElement($element) {
-		$this->elements[] = ['element' => $element, 'attributes' => []];
-		$this->elementIndex++;
-		if ($element === ucfirst($element)) {
-			$this->components[$element] = true;
-		}
+	public function setTemplate($template) {
+		$this->template = $template;
 	}
 
-	public function addAttribute($attribute, $value) {
-		$this->elements[$this->elementIndex]['attributes'][$attribute] = $value;
+	public function addImportComponent($component) {
+		$this->components[] = $component;
 	}
 
 	public function addData($data, $DV) {
@@ -68,9 +68,15 @@ class Component {
 		$this->props[$props] = true;
 	}
 
+	public function addEmits($emits) {
+		$this->emits[$emits] = true;
+	}
+
 	public function addMethod($method, $code) {
 		if ($method === "mounted") {
 			$this->mounted = $code;
+		} elseif ($method === "created") {
+			$this->created = $code;
 		} else {
 			$this->methods[$method] = $code;
 		}
@@ -87,12 +93,14 @@ class Component {
 	public function export() {
 		return [
 			'name' => $this->name,
-			'components' => array_keys($this->components),
-			'elements' => $this->elements,
+			'components' => $this->components,
+			'template' => $this->template,
 			'data' => $this->data,
 			'props' => $this->props,
+			'emits' => $this->emits,
 			'methods' => $this->methods,
 			'mounted' => $this->mounted,
+			'created' => $this->created,
 			'computed' => $this->computed,
 			'watch' => $this->watch
 		];
@@ -148,11 +156,11 @@ class Services {
 
 	private $services = [];
 
-	public function addMethod($service, $method, $params, $code) {
+	public function addMethod($service, $method, $params, $code, $public) {
 		if (!array_key_exists($service, $this->services)) {
 			$this->services[$service] = [];
 		}
-		$this->services[$service][$method] = [$params, $code];
+		$this->services[$service][$method] = [$params, $code, $public];
 	}
 
 	public function exportServices() {
@@ -186,12 +194,12 @@ foreach ($data as $row) {
 	}
 	$component = $components[$row[Component]];
 
-	if ($row[Element]) {
-		$component->addElement($row[Element]);
+	if ($row[Template]) {
+		$component->setTemplate($row[Template]);
 	}
 
-	if ($row[Attribute] && $row[Value]) {
-		$component->addAttribute($row[Attribute], $row[Value]);
+	if ($row[ImportComponent]) {
+		$component->addImportComponent($row[ImportComponent]);
 	}
 
 	if ($row[Data] && $row[DV]) {
@@ -200,6 +208,10 @@ foreach ($data as $row) {
 
 	if ($row[Props]) {
 		$component->addProps($row[Props]);
+	}
+
+	if ($row[Emits]) {
+		$component->addEmits($row[Emits]);
 	}
 
 	if ($row[Method] && $row[MethodCode]) {
@@ -231,7 +243,11 @@ foreach ($data as $row) {
 	}
 
 	if ($row[Service] && $row[ServiceMethod] && $row[ServiceMethodCode]) {
-		$services->addMethod($row[Service], $row[ServiceMethod], $row[ServiceMethodParams], $row[ServiceMethodCode]);
+		$services->addMethod($row[Service], $row[ServiceMethod], $row[ServiceMethodParams], $row[ServiceMethodCode], 'public');
+	}
+
+	if ($row[Service] && $row[ServicePrivateMethod] && $row[ServicePrivateMethodCode]) {
+		$services->addMethod($row[Service], $row[ServicePrivateMethod], $row[ServicePrivateMethodParams], $row[ServicePrivateMethodCode], 'private');
 	}
 
 }

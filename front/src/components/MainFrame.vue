@@ -1,17 +1,18 @@
 <template>
-	<div :class="['MainFrame', className]">
-		<MainMenu />
-		<ContentFrame className="container" />
-	</div>
+  <MainMenu />
+  <MainContent v-if="page === ''" />
+  <Profile v-if="page === 'profile'" />
 </template>
 
 <script>
 import MainMenu from "./MainMenu.vue"
-import ContentFrame from "./ContentFrame.vue"
+import MainContent from "./MainContent.vue"
+import Profile from "./Profile.vue"
 
 export default {
-	components: { MainMenu, ContentFrame,  },
-	props: [ "className",  ],
+	components: { MainMenu, MainContent, Profile,  },
+	props: [  ],
+	emits: [  ],
 	data() {
 		return {
 		}
@@ -19,6 +20,9 @@ export default {
 	methods: {
 	},
 	computed: {
+		page() {
+			return this.$store.state.page
+		},
 	},
 	watch: {
 	},

@@ -1,19 +1,20 @@
 <template>
-	<div :class="['App', className]">
-		<span v-if="isPreloader" class="preloader" />
-		<span v-if="isMessageShown" class="errorMessage" @click="hideErrorMessage" v-text="errorMessage" />
-		<LoginForm v-if="!isLoggedIn" className="container" />
-		<MainFrame v-if="isLoggedIn" />
-	</div>
+  <span class="preloader" v-if="isPreloader" />
+  <span class="errorMessage" 
+    v-if="isMessageShown" 
+    @click="hideErrorMessage">{{ errorMessage }}</span>
+  <LoginFrame v-if="!isLoggedIn" />
+  <MainFrame v-if="isLoggedIn" />
 </template>
 
 <script>
-import LoginForm from "./LoginForm.vue"
+import LoginFrame from "./LoginFrame.vue"
 import MainFrame from "./MainFrame.vue"
 
 export default {
-	components: { LoginForm, MainFrame,  },
-	props: [ "className",  ],
+	components: { LoginFrame, MainFrame,  },
+	props: [  ],
+	emits: [  ],
 	data() {
 		return {
 		}
@@ -39,9 +40,9 @@ export default {
 	},
 	watch: {
 	},
-	mounted() {
+	created() {
 		this.$store.commit('loadAuthToken')
-	}
+	},
 }
 
 </script>

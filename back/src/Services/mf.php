@@ -8,8 +8,12 @@ class mf {
 		return User::get();
 	}
 
-	public function Product() {
-		return Product::get();
+	public function Comments() {
+		return Comments::get();
+	}
+
+	public function Likes() {
+		return Likes::get();
 	}
 
 

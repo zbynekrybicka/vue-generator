@@ -14,7 +14,7 @@ class {$name} extends Service {
 	}
 
 {foreach $service as $method => $content}
-	public function {$method}({$content[0]}) 
+	{$content[2]} function {$method}({$content[0]}) 
 	{
 		{$content[1]|noescape|replace,"\n","\n		"}
 	}

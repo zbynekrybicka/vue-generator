@@ -28,6 +28,7 @@
         "firebase/php-jwt": "^6.3",
         "monolog/monolog": "^2.8",
         "php-di/php-di": "^6.4",
+        "phpgangsta/googleauthenticator": "dev-master",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.10"
     },

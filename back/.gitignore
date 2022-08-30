@@ -5,3 +5,5 @@
 /logs/*
 !/logs/README.md
 .phpunit.result.cache
+app/video/*
+app/image/*

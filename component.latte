@@ -1,9 +1,5 @@
 <template>
-	<div :class="['{$name}', className]">
-{foreach $elements as $element}
-		<{$element['element']} {foreach $element['attributes'] as $key => $value}{$key}="{$value}" {/foreach}/>
-{/foreach}
-	</div>
+  {$template|noescape|replace,"\n","\n  "|replace,"“","\""}
 </template>
 
 <script>
@@ -17,7 +13,8 @@ export default {
 {if $components}
 	components: { {foreach $components as $component}{$component|noescape}, {/foreach} },
 {/if}
-	props: [ "className", {foreach $props as $prop => $value}{$prop},{/foreach} ],
+	props: [ {foreach $props as $prop => $value}{$prop},{/foreach} ],
+	emits: [ {foreach $emits as $emit => $value}{$emit},{/foreach} ],
 	data() {
 		return {
 {foreach $data as $key => $value}
@@ -46,10 +43,15 @@ export default {
 		},
 {/foreach}
 	},
+{if $created}
+	created() {
+		{$created|noescape|replace,"\n", "\n		"}
+	},
+{/if}
 {if $mounted}
 	mounted() {
 		{$mounted|noescape|replace,"\n", "\n		"}
-	}
+	},
 {/if}
 }
 
